@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minister-Facing Red Zone Board</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <h1>🚨 MINISTER-FACING RED ZONE BOARD 🚨</h1>
+        <p>Live Critical Alerts & Responsible Officers</p>
+    </header>
+<div class="card map-card">
+    <div class="card-header">
+        <h3>📍 Live Geospatial Command Center (Delhi NCT)</h3>
+        <div class="map-controls">
+            <span class="badge red">🔴 Critical Wards</span>
+            <span class="badge yellow">🚛 Deployed Resources</span>
+            <span class="badge blue">🌊 Flood Risk Heatmap</span>
+        </div>
+    </div>
+    <div id="admin-map"></div> </div>
+    <div class="dashboard-container">
+        
+        <div class="top-section">
+            <div class="card critical-wards">
+                <div class="card-header">
+                    <h3>Top 5 Critical Wards</h3>
+                </div>
+                <ul class="list-group">
+                    <li>
+                        
+
+                        <div><strong>Ballimaran:</strong> <span class="mpi-score">MPI 0.0</span></div>
+                        <small>Asst. Commissioner (Sadar Pahar Ganj Zone)</small>
+                    </li>
+                    <li>
+                        <div><strong>Jharoda:</strong> <span class="mpi-score">MPI 0.3</span></div>
+                        <small>Special Commissioner of Police (South West Delhi)</small>
+                    </li>
+                    <li>
+                        <div><strong>Bakhtawarpur:</strong> <span class="mpi-score">MPI 0.7</span></div>
+                        <small>Asst. Commissioner (Narela Zone)</small>
+                    </li>
+                    <li>
+                        <div><strong>Burari</strong> <span class="mpi-score">MPI 0.8</span></div>
+                        <small>Asst. Commissioner (Civil Lines Zone)</small>
+                    </li>
+                    <li>
+                        <div><strong>Sant Nagar:</strong> <span class="mpi-score">MPI 1.1</span></div>
+                        <small>Asst. Commissioner (Rohini)</small>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card drains">
+                <div class="card-header">
+                    <h3>⚠️ Drains Needing Desilting (Today)</h3>
+                </div>
+                <ul class="list-group">
+                    <li><strong>Kamla Nagar:</strong> Prob. 87%</li>
+                    <li><strong>Dev Nagar:</strong> Prob. 83%</li>
+                    <li><strong>Vasant Kunj:</strong> Prob. 94%</li>
+                    <li><strong>Safdarjung Enclave:</strong> Prob. 83%</li>
+                </ul>
+            </div>
+
+            <div class="card flood-zones">
+                <div class="card-header">
+                    <h3>🌊 Expected Flood Zones (Next 6 Hrs)</h3>
+                </div>
+                <div class="alert-box">
+                    <p>🚨 <strong>RISK: Flooding in Ballimaran</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="live-feed-section">
+            <div class="section-title">
+                ✅ Live Resolution Feed (Real-Time)
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Ward / Zone</th>
+                            <th>Issue Type</th>
+                            <th>Action Taken</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="live-feed-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="bottom-section">
+            
+            <div class="resources-container">
+                <div class="section-title">
+                    🚛 Resource Readiness Tracker
+                </div>
+                <div class="resource-grid">
+                    
+                    <div class="stat-card">
+                        <h2 id="drain-machines">128/150</h2>
+                        <p>Drain Machines</p>
+                        <span class="badge yellow">Deployed</span>
+                    </div>
+                    <div class="stat-card">
+                        <h2 id="water-pumps">358/400</h2>
+                        <p>Water Pumps</p>
+                        <span class="badge yellow">Deployed</span>
+                    </div>
+                    <div class="stat-card">
+                        <h2 id="field-engineers">1026/1200</h2>
+                        <p>Field Engineers</p>
+                        <span class="badge yellow">Deployed</span>
+                    </div>
+                    <div class="stat-card">
+                        <h2 id="emergency-vans">3</h2>
+                        <p>Emergency Vans</p>
+                        <span class="badge yellow">On Route</span>
+                    </div>
+                    <div class="stat-card">
+                        <h2 id="debris-removal trucks">61/85</h2>
+                        <p>Debris- Removal Trucks</p>
+                        <span class="badge yellow">Available</span>
+                    </div>
+                    <div class="stat-card">
+                        <h2 id="ambulances">46/120</h2>
+                        <p>Ambulances</p>
+                        <span class="badge yellow">On Route</span>
+                    </div>
+                </div>
+            </div>
+            <div class="resource-grid">
+    </div>
+
+            <div class="coordination-container">
+                <div class="section-title">
+                    🛡️ Inter-Department Coordination (Live)
+                </div>
+                <p class="subtitle">Live status from Allied Agencies</p>
+                
+                <div class="agency-list">
+                    <div class="agency-item">
+                        <span class="agency-name">🏛️ MCD</span>
+                        <div class="agency-details">
+                            <span class="status-text green">ACTIVE</span>
+                            <small>Staff shift change</small>
+                        </div>
+                    </div>
+                    <div class="agency-item">
+                        <span class="agency-name">🏗️ PWD</span>
+                        <div class="agency-details">
+                            <span class="status-text green">ACTIVE</span>
+                            <small>Machinery maintenance</small>
+                        </div>
+                    </div>
+                    <div class="agency-item">
+                        <span class="agency-name">🚦 Traffic</span>
+                        <div class="agency-details">
+                            <span class="status-text orange">BUSY</span>
+                            <small>Traffic smooth at ITO</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">Latest Agency Comm Logs:</div>
+                    <div class="terminal-content" id="terminal-content">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="section-title">
+    🗳️ Monsoon Session – Delhi Legislative Assembly (Live Proceedings)
+</div>
+<div class="video-container">
+    <iframe 
+        width="100%" 
+        height="350" 
+        src="https://www.youtube.com/embed/hx9L3Ju9rTc" 
+        title="Live Stream" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen>
+    </iframe>
+</div>
+    <label for="wardSelect"><strong>Select Municipal Ward:</strong></label>
+<select id="wardSelect" class="ward-dropdown">
+    <option value="Ballimaran">Ballimaran</option>
+    <option value="Burari">Burari</option>
+    <option value="Okhla">Okhla</option>
+    <option value="Lajpat Nagar">Lajpat Nagar</option>
+    <option value="Karol Bagh">Karol Bagh</option>
+    <option value="Civil Lines">Civil Lines</option>
+    <option value="Dwarka">Dwarka</option>
+    <option value="Jama Masjid">Jama Masjid</option>
+    <option value="Chhatarpur">Chhatarpur</option>
+    <option value="Kalkaji">Kalkaji</option>
+    <option value="Dallupura">Dallupura</option>
+    <option value="Geeta Colony">Geeta Colony</option>
+    <option value="Ashok Vihar">Ashok Vihar</option>
+    <option value="Janakpuri">Janakpuri</option>
+</select>
+
+    <div class="card xai-card">
+    <div class="card-header">
+        <h3>🧠 Decision Support Summary (Explainable AI)</h3>
+    </div>
+
+    <div class="xai-zone">
+        <div class="xai-risk">
+            <span class="risk-label">Flood Risk:</span>
+            <span id="risk-level" class="risk-high">HIGH</span>
+        </div>
+
+        <p class="xai-summary" id="xai-summary-text">
+            Loading AI reasoning...
+        </p>
+
+        <div class="xai-factors">
+            <h4>Key Contributing Factors</h4>
+            <ul id="xai-factor-list"></ul>
+        </div>
+
+        <div class="xai-recommendation">
+            <strong>Policy Recommendation:</strong>
+            <span id="xai-recommendation-text"></span>
+        </div>
+    </div>
+</div>
+<div class="budget-impact-section">
+    <div class="section-title">💰 Budget vs Impact Visualizer- Policy Intelligence</div>
+
+    <div class="budget-summary">
+        <div class="budget-card">
+            <h3>₹ Spent</h3>
+            <p id="totalSpent">₹0 Cr</p>
+        </div>
+
+        <div class="budget-card">
+            <h3>Flood Risk Reduced</h3>
+            <p id="riskReduced">0%</p>
+        </div>
+
+        <div class="budget-card">
+            <h3>Cost per Ward Saved</h3>
+            <p id="costPerWard">₹0 Cr</p>
+        </div>
+    </div>
+
+    <div class="impact-insights">
+        <h4>📊 Most Cost-Effective Interventions</h4>
+        <ul id="bestInterventions"></ul>
+    </div>
+</div>
+
+<!-- ===============================
+     WATER PORTFOLIO | PREMIUM VIEW
+================================ -->
+
+<div class="water-portfolio-section">
+  <div class="water-hero">
+    <div>
+      <h2>💧 Delhi Water Governance</h2>
+      <p class="water-tagline">
+        Policy Leadership · Infrastructure Scale · Citizen Impact
+      </p>
+    </div>
+    <div class="minister-chip">
+      <span class="label">Portfolio Minister</span>
+      <span class="name">Parvesh Sahib Singh Verma</span>
+      <span class="role">Cabinet Minister, Govt. of Delhi</span>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO SNAPSHOT -->
+  <div class="water-metrics">
+    <div class="metric-card">
+      <h3>🚰 Core Mandate</h3>
+      <p>Water Supply, Sewerage, Flood Control</p>
+    </div>
+    <div class="metric-card">
+      <h3>🏗️ Execution Arms</h3>
+      <p>DJB · PWD · Irrigation & Flood Control</p>
+    </div>
+    <div class="metric-card">
+      <h3>🎯 Strategic Goal</h3>
+      <p>24×7 Safe Water & Zero Flood Disruption</p>
+    </div>
+  </div>
+
+  <!-- VISION -->
+  <div class="water-block">
+    <h3>🌊 Vision: From Supply to Security</h3>
+
+    <div class="vision-grid">
+      <div class="vision-card">
+        <h4>Always-On Water</h4>
+        <p>
+          City-wide transition to <strong>24×7 clean water</strong> by replacing
+          legacy pipelines, eliminating leakages, and preventing contamination.
+        </p>
+      </div>
+
+      <div class="vision-card">
+        <h4>Infrastructure at Scale</h4>
+        <p>
+          Accelerated rollout of <strong>treatment plants, trunk pipelines,
+          sewer networks</strong>, and urban drainage systems across Delhi.
+        </p>
+      </div>
+
+      <div class="vision-card">
+        <h4>Citizen-First Affordability</h4>
+        <p>
+          Targeted reforms including <strong>bill rationalisation, waivers,
+          and simplified metering</strong> to reduce household burden.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOVERNANCE -->
+  <div class="water-block soft">
+    <h3>🧑‍💼 Governance & Delivery Ecosystem</h3>
+
+    <div class="governance-list">
+      <div class="gov-item">
+        <span class="gov-title">Delhi Jal Board (DJB)</span>
+        <span class="gov-desc">
+          Nodal authority for water production, distribution, and sewerage services.
+        </span>
+      </div>
+
+      <div class="gov-item">
+        <span class="gov-title">Allied Departments</span>
+        <span class="gov-desc">
+          PWD, Irrigation & Flood Control, NDMC — execution, assets & flood response.
+        </span>
+      </div>
+
+      <div class="gov-item">
+        <span class="gov-title">Digital Oversight</span>
+        <span class="gov-desc">
+          Real-time dashboards, AI risk flags, and performance tracking for transparency.
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bottom Image Section -->
+<div class="bottom-gallery">
+  <img src="djb1.png" alt="Delhi Jal Board Office Sign">
+  <img src="djb 2.jpg" alt="Delhi Jal Board Event">
+  <img src="djb 3.jpg" alt="Delhi Jal Board Varunalaya Complex">
+  <img src="djb 4.png" alt="Delhi Jal Board Logo">
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
